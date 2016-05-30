@@ -1,5 +1,6 @@
 #!/bin/sh
 #sh stop.sh
+sudo docker rm udacity-ml
 sudo docker run \
     --rm \
     -it \

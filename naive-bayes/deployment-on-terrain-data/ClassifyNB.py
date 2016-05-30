@@ -9,5 +9,10 @@ def classify(features_train, labels_train):
     ### your code goes here!
     from sklearn.naive_bayes import GaussianNB
     clf = GaussianNB()
+    
+    # Test with SVM to see how the image behaves with RBF and large C
+    #from sklearn.svm import SVC
+    #clf = SVC(kernel="rbf", C=100000)
+    
     clf.fit(features_train, labels_train)
     return clf
