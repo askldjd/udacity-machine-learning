@@ -42,34 +42,51 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
         ### only look at first 200 emails when developing
         ### once everything is working, remove this line to run over full dataset
         temp_counter += 1
-        if temp_counter < 200:
-            path = os.path.join('..', path[:-1])
-            print path
+        if temp_counter > -1:
+            path = os.path.join('../..', path[:-1])
             email = open(path, "r")
 
             ### use parseOutText to extract the text from the opened email
+            text = parseOutText(email)
 
             ### use str.replace() to remove any instances of the words
-            ### ["sara", "shackleton", "chris", "germani"]
+            badWords = ["sara", "shackleton", "chris", "germani"]
 
+            for badWord in badWords:
+                text = text.replace(badWord, "")
+            
             ### append the text to word_data
+            word_data.append(text)
 
             ### append a 0 to from_data if email is from Sara, and 1 if email is from Chris
-
-
+            if name.lower() == "sara":
+                from_data.append(0)
+            elif name.lower() == "chris":
+                from_data.append(1)
             email.close()
 
+#print from_data
 print "emails processed"
 from_sara.close()
 from_chris.close()
+
+#print word_data[152]
 
 pickle.dump( word_data, open("your_word_data.pkl", "w") )
 pickle.dump( from_data, open("your_email_authors.pkl", "w") )
 
 
-
-
-
 ### in Part 4, do TfIdf vectorization here
+from sklearn.feature_extraction.text import TfidfTransformer
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+vectorizer = TfidfVectorizer(stop_words='english')
+X_train_counts = vectorizer.fit_transform(word_data)
+# print X_train_counts[34597]
+print len(vectorizer.get_feature_names())
+print vectorizer.get_feature_names()[34597]
+from sklearn.feature_extraction.text import TfidfTransformer
+tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
+X_train_tf = tf_transformer.transform(X_train_counts)
 
+print X_train_tf[10]

@@ -15,14 +15,28 @@
 
 import sys
 import pickle
+from sklearn.preprocessing import MinMaxScaler
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
-dictionary = pickle.load( open("../final_project/final_project_dataset_modified.pkl", "r") )
+dictionary = pickle.load( open("../final_project/final_project_dataset.pkl", "r") )
+
+eso = []
+for k, v in dictionary.iteritems():
+    if v["exercised_stock_options"] != "NaN":
+        eso.append(v["exercised_stock_options"])
+print "eso len %d" % len(eso)
+print sorted(eso)
+
+scaler = MinMaxScaler()
+new_eso = scaler.fit_transform(eso)
+print sorted( new_eso)
+
 
 ### list the features you want to look at--first item in the 
 ### list will be the "target" feature
 # features_list = ["bonus", "long_term_incentive"]
-features_list = ["bonus", "salary"]
+# features_list = ["bonus", "salary"]
+features_list = ["bonus", "exercised_stock_options"]
 # print dictionary
 data = featureFormat( dictionary, features_list, remove_any_zeroes=True)
 target, features = targetFeatureSplit( data )

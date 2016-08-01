@@ -3,6 +3,16 @@
 from nltk.stem.snowball import SnowballStemmer
 import string
 
+def stemString(inputString):
+    from nltk.stem.snowball import SnowballStemmer
+    stemmer = SnowballStemmer("english")
+
+    tokens = inputString.split()
+    singles = [stemmer.stem(token) for token in tokens]
+    stemmed_string =  ' '.join(singles)
+
+    return stemmed_string
+
 def parseOutText(f):
     """ given an opened email file f, parse out all text below the
         metadata block at the top
@@ -24,19 +34,8 @@ def parseOutText(f):
     content = all_text.split("X-FileName:")
     words = ""
     if len(content) > 1:
-        ### remove punctuation
         text_string = content[1].translate(string.maketrans("", ""), string.punctuation)
-
-        ### project part 2: comment out the line below
-        words = text_string
-
-        ### split the text string into individual words, stem each word,
-        ### and append the stemmed word to words (make sure there's a single
-        ### space between each stemmed word)
-        
-
-
-
+        words = stemString(text_string)
 
     return words
 
