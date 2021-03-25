@@ -23,7 +23,7 @@ pysmbc==1.0.15.5
 python-dateutil==2.5.3
 pytz==2016.4
 pyxdg==0.25
-PyYAML==3.11
+PyYAML==5.4
 requests==2.10.0
 scikit-learn==0.17.1
 scipy==0.17.1
